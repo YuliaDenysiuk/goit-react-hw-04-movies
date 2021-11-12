@@ -1,7 +1,7 @@
 // import s from './NotFoundView.module.css';
 
 function NotFoundView() {
-    return (null);
+    return <div>Фильм не найден, попробуйте еще раз</div>;
 }
 
 export default NotFoundView;
