@@ -32,7 +32,7 @@ function MovieDetailsPageView() {
     }, [movieId]);
 
     const onGoBack = () => {
-        history.push(location?.state?.from ?? location.state.from.search);
+        history.push(location?.state?.from);
     }
 
     return (        
@@ -61,16 +61,10 @@ function MovieDetailsPageView() {
             </div>
             <ul>Additional information
                 <li>
-                    <Link to={{
-                        pathname: `${url}/cast`,
-                        state: { from: location },
-                    }}>Cast</Link>                                        
+                    <Link to={`${url}/cast`}>Cast</Link>                                        
                 </li>
                 <li>                    
-                    <Link to={{
-                        pathname: `${url}/reviews`,
-                        state: { from: location },
-                    }}>Reviews</Link>                                       
+                    <Link to={`${url}/reviews`}>Reviews</Link>                                       
                 </li>
             </ul>
 

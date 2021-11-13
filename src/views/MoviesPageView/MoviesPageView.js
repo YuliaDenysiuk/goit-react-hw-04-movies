@@ -9,25 +9,22 @@ import NotFoundView from '../NotFoundView/NotFoundView';
 function MoviesPageView() {
     const {url} = useRouteMatch();
     const location = useLocation();
-    const history = useHistory();    
-    const [movie, setMovie] = useState('');
-    const [movies, setMovies] = useState(null);
+    const history = useHistory();
+    const [movies, setMovies] = useState([]);
     const [error, setError] = useState(null);
     const [status, setStatus] = useState('idle');
 
     const addMovieName = (name) => { 
-        setMovie(name);
-
         history.push({
             ...location,
             search: `qwery=${name}`,
         });
     };
 
-    const nameForFetch = new URLSearchParams(location.search).get('qwery');;
+    const nameForFetch = new URLSearchParams(location.search).get('qwery');
 
     useEffect(() => {
-        if(nameForFetch === '' || movie === '') {
+        if(nameForFetch === '' || location.search === '') {
             return;
         }
 
@@ -47,7 +44,9 @@ function MoviesPageView() {
                 setError(error.message);
                 setStatus('rejected');
             })
-    }, [movie, nameForFetch]);
+    }, [location.search, nameForFetch]);
+
+    console.log(location);
 
     return (
         <>
@@ -63,7 +62,7 @@ function MoviesPageView() {
                     <li key={id}>
                         <Link to={{
                             pathname: `${url}/${id}`,
-                            state: {from: location},
+                            state: { from: location },
                         }}>{title}</Link>
                     </li>
                 ))}
