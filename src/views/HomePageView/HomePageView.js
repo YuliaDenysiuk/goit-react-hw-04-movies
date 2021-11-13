@@ -1,48 +1,55 @@
 // import s from './HomePageView.module.css';
 import {useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useLocation } from 'react-router-dom';
 import {fetchPopularMovies} from '../../api/api';
 import PendingLoader from '../../components/Loader/Loader';
 import NotFoundView from '../NotFoundView/NotFoundView';
 
 function HomePageView() {
+    const location = useLocation();    
     const [movies, setMovies] = useState(null);
     const [error, setError] = useState(null);
-    const [state, setState] = useState('idle');
+    const [status, setStatus] = useState('idle');
 
     useEffect(() => {
-        setState('pending');
+        setStatus('pending');
 
         fetchPopularMovies()
             .then(movies => {
                 setMovies(movies.results);
                 if (movies.results.length === 0) {
-                    setState('rejected');
+                    setStatus('rejected');
                     return;
                 }
-                setState('resolved');
+                setStatus('resolved');
                 setError(null);
             })
             .catch(error => {
                 setError(error.message);
-                setState('rejected');
+                setStatus('rejected');
             });
     }, []);
           
     return (
         <>
-        {state === 'pending' && <PendingLoader />}
+        {status === 'pending' && <PendingLoader />}
 
-        {(state === 'rejected' || error) && <NotFoundView />}
+        {(status === 'rejected' || error) && <NotFoundView text={`There are no trending movies`}/>}
 
-        {state === 'resolved' && (
+        {status === 'resolved' && (
+            <>
+            <h1>Trending today</h1>
             <ul>
                 {movies.map(({id, title}) => (
                     <li key={id}>
-                        <Link to="/">{title}</Link>
+                        <Link to={{
+                            pathname: `/movies/${id}`,
+                            state: { from: location },
+                        }}>{title}</Link>
                     </li>
                 ))}
             </ul>
+            </>
         )}
         </>
     );

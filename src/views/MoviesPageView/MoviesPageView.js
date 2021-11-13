@@ -1,57 +1,70 @@
 // import s from './MoviesPageView.module.css';
 import {useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
-import {fetchMovies} from '../../api/api';
+import {Link, useRouteMatch, useLocation, useHistory} from 'react-router-dom';
+import {fetchMoviesByName} from '../../api/api';
 import MoviesInput from '../../components/MoviesInput/MoviesInput';
 import PendingLoader from '../../components/Loader/Loader';
 import NotFoundView from '../NotFoundView/NotFoundView';
 
 function MoviesPageView() {
+    const {url} = useRouteMatch();
+    const location = useLocation();
+    const history = useHistory();    
     const [movie, setMovie] = useState('');
     const [movies, setMovies] = useState(null);
     const [error, setError] = useState(null);
-    const [state, setState] = useState('idle');
+    const [status, setStatus] = useState('idle');
 
-    const addMovieName = (name) => {
+    const addMovieName = (name) => { 
         setMovie(name);
+
+        history.push({
+            ...location,
+            search: `qwery=${name}`,
+        });
     };
 
+    const nameForFetch = new URLSearchParams(location.search).get('qwery');;
+
     useEffect(() => {
-        if(movie === '') {
+        if(nameForFetch === '' || movie === '') {
             return;
         }
 
-        setState('pending');
+        setStatus('pending');
 
-        fetchMovies(movie)
-            .then(movies => {           
+        fetchMoviesByName(nameForFetch)
+            .then(movies => {
                 setMovies(movies.results);
                 if (movies.results.length === 0) {
-                    setState('rejected');
+                    setStatus('rejected');
                     return;
                 }
-                setState('resolved');
+                setStatus('resolved');
                 setError(null);
             })
             .catch(error => {
                 setError(error.message);
-                setState('rejected');
+                setStatus('rejected');
             })
-    }, [movie]);
+    }, [movie, nameForFetch]);
 
     return (
         <>
         <MoviesInput onSubmit={addMovieName}/>
 
-        {state === 'pending' && <PendingLoader />}
+        {status === 'pending' && <PendingLoader />}
 
-        {(state === 'rejected' || error) && <NotFoundView />}
+        {(status === 'rejected' || error) && <NotFoundView text={`Film is not found, try again`}/>}
         
-        {state === 'resolved' && (
+        {status === 'resolved' && (
             <ul>
                 {movies.map(({id, title}) => (
                     <li key={id}>
-                        <Link to='/'>{title}</Link>
+                        <Link to={{
+                            pathname: `${url}/${id}`,
+                            state: {from: location},
+                        }}>{title}</Link>
                     </li>
                 ))}
             </ul>

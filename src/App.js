@@ -1,5 +1,5 @@
 import './App.css';
-import {Routes, Route} from 'react-router-dom';
+import {Switch, Route} from 'react-router-dom';
 import Container from './components/Container/Container';
 import AppBar from './components/AppBar/AppBar';
 import HomePageView from './views/HomePageView/HomePageView';
@@ -12,12 +12,23 @@ function App() {
     <Container>
       <AppBar />
 
-      <Routes>
-        <Route path="/" exact="true" element={<HomePageView />} />
-        <Route path="/movies" exact="true" element={<MoviesPageView />} />
-        <Route path="/movies/:movieId" element={<MovieDetailsPageView />} />
-        <Route element={<NotFoundView />} />
-      </Routes>
+      <Switch>
+        <Route path="/" exact><
+          HomePageView />
+        </Route>
+        
+        <Route path="/movies" exact>
+          <MoviesPageView />
+        </Route>
+
+        <Route path="/movies/:movieId">
+          <MovieDetailsPageView />
+        </Route>
+
+        <Route>
+          <NotFoundView />
+        </Route>
+      </Switch>
       
     </Container>
   );

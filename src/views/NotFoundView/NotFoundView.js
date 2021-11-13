@@ -1,7 +1,11 @@
 // import s from './NotFoundView.module.css';
 
-function NotFoundView() {
-    return <div>Фильм не найден, попробуйте еще раз</div>;
+function NotFoundView({text}) {
+    return <div>{text}</div>;
 }
+
+NotFoundView.defaultProps = {
+    text: 'Not found',
+};
 
 export default NotFoundView;
