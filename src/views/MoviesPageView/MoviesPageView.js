@@ -1,4 +1,4 @@
-// import s from './MoviesPageView.module.css';
+import s from './MoviesPageView.module.css';
 import {useState, useEffect} from 'react';
 import {Link, useRouteMatch, useLocation, useHistory} from 'react-router-dom';
 import {fetchMoviesByName} from '../../api/api';
@@ -55,9 +55,9 @@ function MoviesPageView() {
         {(status === 'rejected' || error) && <NotFound text={`Film is not found, try again`}/>}
         
         {status === 'resolved' && (
-            <ul>
+            <ul className={s.list}>
                 {movies.map(({id, title}) => (
-                    <li key={id}>
+                    <li key={id} className={s.list__item}>
                         <Link to={{
                             pathname: `${url}/${id}`,
                             state: { from: location },

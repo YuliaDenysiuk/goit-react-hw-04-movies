@@ -4,7 +4,7 @@ import Loader from 'react-loader-spinner';
 function PendingLoader() {
     return <Loader
         type="ThreeDots"
-        color="#3f51b5"
+        color="#1b7bc9"
         height={80}
         width={80}      
     />;    

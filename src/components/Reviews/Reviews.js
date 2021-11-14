@@ -1,4 +1,4 @@
-// import s from './Reviews.module.css';
+import s from './Reviews.module.css';
 import {useState, useEffect} from 'react';
 import {fetchMovieReviews} from '../../api/api';
 import PendingLoader from '../Loader/Loader';
@@ -35,10 +35,10 @@ function Reviews({movieId}) {
         {(status === 'rejected' || error) && <NotFound text={`We don't have any reviews for this movie`}/>}
 
         {status === 'resolved' && (
-            <ul>
+            <ul className={s.reviews}>
             {reviews.map(({id, author, content}) => (
                 <li key={id}>
-                    <h3>Author: {author}</h3>
+                    <h3>Author: <span className={s.reviews__author}>{author}</span></h3>
                     <p>{content}</p>
                 </li>
             ))}

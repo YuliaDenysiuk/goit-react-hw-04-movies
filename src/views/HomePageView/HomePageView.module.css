@@ -1,0 +1,12 @@
+.title {
+  color: #1b7bc9;
+}
+
+.list {
+  list-style: square;
+  color: #1b7bc9;
+}
+
+.list__item {
+  margin-bottom: 5px;
+}

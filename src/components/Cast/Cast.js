@@ -1,4 +1,4 @@
-// import s from './Cast.module.css';
+import s from './Cast.module.css';
 import { useState, useEffect } from 'react';
 import { fetchMovieCast } from '../../api/api';
 import PendingLoader from '../Loader/Loader';
@@ -40,15 +40,15 @@ function Cast({ movieId }) {
       )}
 
       {status === 'resolved' && (
-        <ul>
+        <ul className={s.actors}>
           {actors.map(({ id, name, profile_path }) => (
-            <li key={id}>
-              <img
+            <li className={s.actors__item} key={id}>
+              <img 
+                className={s.actors__image}
                 src={profile_path ? `${imgPath}${profile_path}` : NotFoundImage}
                 alt={name}
-                height="200"
               ></img>
-              <p>{name}</p>
+              <p className={s.actors__name}>{name}</p>
             </li>
           ))}
         </ul>

@@ -1,0 +1,7 @@
+.reviews {
+  list-style: square;
+}
+
+.reviews__author {
+  color: #1b7bc9;
+}

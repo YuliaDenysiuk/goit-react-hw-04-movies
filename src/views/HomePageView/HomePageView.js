@@ -1,4 +1,4 @@
-// import s from './HomePageView.module.css';
+import s from './HomePageView.module.css';
 import {useState, useEffect} from 'react';
 import {Link, useLocation } from 'react-router-dom';
 import {fetchPopularMovies} from '../../api/api';
@@ -38,10 +38,10 @@ function HomePageView() {
 
         {status === 'resolved' && (
             <>
-            <h1>Trending today</h1>
-            <ul>
+            <h1 className={s.title}>Trending today</h1>
+            <ul className={s.list}>
                 {movies.map(({id, title}) => (
-                    <li key={id}>
+                    <li key={id} className={s.list__item}>
                         <Link to={{
                             pathname: `/movies/${id}`,
                             state: { from: location },

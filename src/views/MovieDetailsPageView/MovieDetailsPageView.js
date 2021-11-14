@@ -1,12 +1,13 @@
-// import s from './MovieDetailsPageView.module.css';
-import {useState, useEffect} from 'react';
+import s from './MovieDetailsPageView.module.css';
+import {useState, useEffect, lazy, Suspense} from 'react';
 import {Switch, Route, Link, useParams, useRouteMatch, useHistory, useLocation} from 'react-router-dom';
 import {fetchMovieById} from '../../api/api';
 import PendingLoader from '../../components/Loader/Loader';
 import NotFound from '../../components/NotFound/NotFound';
 import NotFoundImage from '../../images/imageNotFound.jpg';
-import Cast from '../../components/Cast/Cast';
-import Reviews from '../../components/Reviews/Reviews';
+
+const Cast = lazy(() => import('../../components/Cast/Cast.js' /* webpackChunkName: "cast" */));
+const Reviews = lazy(() => import('../../components/Reviews/Reviews.js' /* webpackChunkName: "reviews" */));
 
 function MovieDetailsPageView() {
     const {movieId} = useParams();
@@ -46,30 +47,32 @@ function MovieDetailsPageView() {
 
         {status === 'resolved' && (
             <>
-            <button type="button" onClick={onGoBack}>Go back</button>
-            <div>
-                <img src={movie.poster_path ? `${imgPath}${movie.poster_path}` : NotFoundImage} alt={movie.title} height='300'></img>
-            </div>
-            <div>
-                <h1>{movie.title} ({movie.release_date.slice(0,4)})</h1>
-                <p>User Score: {movie.vote_average*10}%</p>
+            <button className={s.movie__button} type="button" onClick={onGoBack}>Go back</button>
+            <div className={s.movie}>                
+                <div>
+                    <img className={s.movie__image} src={movie.poster_path ? `${imgPath}${movie.poster_path}` : NotFoundImage} alt={movie.title}></img>
+                </div>
+                <div>
+                    <h1 className={s.movie__title}>{movie.title} ({movie.release_date.slice(0,4)})</h1>
+                    <p className={s.movie__text}>User Score: {movie.vote_average*10}%</p>
 
-                <h2>Overview</h2>
-                <p>{movie.overview}</p>
+                    <h2 className={s.movie__heading}>Overview</h2>
+                    <p className={s.movie__text}>{movie.overview}</p>
 
-                <h2>Genres</h2>
-                <ul>{movie.genres.map(genre => (
-                    <li key={genre.id}>{genre.name}</li>
-                ))}</ul>
+                    <h2 className={s.movie__heading}>Genres</h2>
+                    <ul className={s.movie__genres}>{movie.genres.map(genre => (
+                        <li className={s.movie__genre} key={genre.id}>{genre.name}</li>
+                    ))}</ul>
+                </div>
             </div>
-            <ul>Additional information
-                <li>
+            <ul className={s.movie__list}>Additional information
+                <li className={s.movie__item}>
                     <Link to={{
                         pathname: `${url}/cast`,
                         state: {from : currentLocation},
                     }}>Cast</Link>                                        
                 </li>
-                <li>                    
+                <li className={s.movie__item}>                    
                     <Link to={{
                         pathname: `${url}/reviews`,
                         state: {from : currentLocation},
@@ -77,15 +80,17 @@ function MovieDetailsPageView() {
                 </li>
             </ul>
 
-            <Switch>
-                <Route path={`${url}/cast`}>
-                    <Cast movieId={movieId}/>
-                </Route>
-                
-                <Route path={`${url}/reviews`}>
-                    <Reviews movieId={movieId}/>
-                </Route>
-            </Switch>
+            <Suspense fallback={<PendingLoader />}>
+                <Switch>
+                    <Route path={`${url}/cast`}>
+                        <Cast movieId={movieId}/>
+                    </Route>
+                    
+                    <Route path={`${url}/reviews`}>
+                        <Reviews movieId={movieId}/>
+                    </Route>
+                </Switch>
+            </Suspense>
             </>
         )}
         </>

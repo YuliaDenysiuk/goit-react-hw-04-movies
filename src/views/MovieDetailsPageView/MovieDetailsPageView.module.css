@@ -1,0 +1,57 @@
+.movie {
+  display: flex;
+}
+
+.movie__button {
+  margin-bottom: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 15px;
+  padding-left: 15px;
+  text-transform: uppercase;
+  background-color: #1b7bc9;
+  color: #ffffff;
+  border-radius: 10px;
+  border: none;
+}
+
+.movie__image {
+  margin-right: 20px;
+  height: 400px;
+  width: auto;
+}
+
+.movie__title {
+  margin-top: 0px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.movie__heading {
+  margin-top: 20px;
+  margin-bottom: 0px;
+  font-weight: 500;
+}
+
+.movie__text {
+  margin: 0px;
+}
+
+.movie__genres {
+  margin: 0px;
+  list-style: square;
+}
+
+.movie__genre {
+  margin-top: 5px;
+}
+
+.movie__list {
+  font-weight: 700;
+  list-style: square;
+  color: #1b7bc9;
+}
+
+.movie__item {
+  font-weight: 400;
+}
