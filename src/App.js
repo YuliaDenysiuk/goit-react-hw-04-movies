@@ -5,7 +5,7 @@ import AppBar from './components/AppBar/AppBar';
 import HomePageView from './views/HomePageView/HomePageView';
 import MoviesPageView from './views/MoviesPageView/MoviesPageView';
 import MovieDetailsPageView from './views/MovieDetailsPageView/MovieDetailsPageView';
-import NotFoundView from './views/NotFoundView/NotFoundView';
+import NotFound from './components/NotFound/NotFound';
 
 function App() {
   return (
@@ -26,7 +26,7 @@ function App() {
         </Route>
 
         <Route>
-          <NotFoundView />
+          <NotFound />
         </Route>
       </Switch>
       

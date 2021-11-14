@@ -4,7 +4,7 @@ import {Link, useRouteMatch, useLocation, useHistory} from 'react-router-dom';
 import {fetchMoviesByName} from '../../api/api';
 import MoviesInput from '../../components/MoviesInput/MoviesInput';
 import PendingLoader from '../../components/Loader/Loader';
-import NotFoundView from '../NotFoundView/NotFoundView';
+import NotFound from '../../components/NotFound/NotFound';
 
 function MoviesPageView() {
     const {url} = useRouteMatch();
@@ -46,15 +46,13 @@ function MoviesPageView() {
             })
     }, [location.search, nameForFetch]);
 
-    console.log(location);
-
     return (
         <>
         <MoviesInput onSubmit={addMovieName}/>
 
         {status === 'pending' && <PendingLoader />}
 
-        {(status === 'rejected' || error) && <NotFoundView text={`Film is not found, try again`}/>}
+        {(status === 'rejected' || error) && <NotFound text={`Film is not found, try again`}/>}
         
         {status === 'resolved' && (
             <ul>

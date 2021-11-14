@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react';
 import {Link, useLocation } from 'react-router-dom';
 import {fetchPopularMovies} from '../../api/api';
 import PendingLoader from '../../components/Loader/Loader';
-import NotFoundView from '../NotFoundView/NotFoundView';
+import NotFound from '../../components/NotFound/NotFound';
 
 function HomePageView() {
     const location = useLocation();    
@@ -34,7 +34,7 @@ function HomePageView() {
         <>
         {status === 'pending' && <PendingLoader />}
 
-        {(status === 'rejected' || error) && <NotFoundView text={`There are no trending movies`}/>}
+        {(status === 'rejected' || error) && <NotFound text={`There are no trending movies`}/>}
 
         {status === 'resolved' && (
             <>
